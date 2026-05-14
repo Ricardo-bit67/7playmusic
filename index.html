@@ -1,151 +1,142 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sorteador de Louvores - Personalizável</title>
-    <style>
-        :root { --primary: #1DB954; --bg: #121212; --card: #1e1e1e; --text-dim: #cccccc; }
-        
-        body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg); color: white; margin: 0; padding: 15px; display: flex; flex-direction: column; align-items: center; font-size: 1.2rem; }
-
-        /* MODAL DE INSTRUÇÕES */
-        #instrucoes-tela { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); display: flex; justify-content: center; align-items: center; z-index: 1000; }
-        .modal-instrucoes { background: var(--card); padding: 40px; border-radius: 25px; max-width: 500px; width: 90%; text-align: center; border: 2px solid var(--primary); }
-        .btn-entrar { background: var(--primary); color: white; border: none; padding: 20px 50px; border-radius: 40px; font-weight: bold; cursor: pointer; font-size: 1.5rem; margin-top: 20px; width: 100%; }
-
-        .container { width: 100%; max-width: 700px; }
-        .card { background: var(--card); padding: 30px; border-radius: 25px; margin-bottom: 35px; text-align: center; }
-        h1 { font-size: 2rem; color: var(--primary); margin-bottom: 15px; }
-
-        /* LISTA DE SORTEIO */
-        .musica-item { 
-            display: flex; justify-content: space-between; align-items: center;
-            background: #282828; margin: 15px 0; padding: 20px; border-radius: 18px; 
-            text-decoration: none; color: white; border-left: 8px solid var(--primary);
-        }
-        .info-musica { flex-grow: 1; text-decoration: none; color: white; text-align: left; cursor: pointer; }
-        .musica-nome { font-weight: bold; font-size: 1.3rem; display: block; }
-        .album-tag { font-size: 0.9rem; color: var(--primary); text-transform: uppercase; }
-
-        /* CAMPO DE BUSCA */
-        .search-box { width: 100%; padding: 20px; border-radius: 15px; border: 2px solid #444; background: #282828; color: white; font-size: 1.4rem; margin-bottom: 20px; box-sizing: border-box; }
-        
-        /* BOTÃO DE ADICIONAR NA LISTA */
-        .btn-add { background: #333; color: var(--primary); border: 1px solid var(--primary); padding: 10px 15px; border-radius: 10px; font-weight: bold; cursor: pointer; margin-left: 10px; font-size: 1rem; }
-        .btn-add:hover { background: var(--primary); color: white; }
-
-        .btn-acao { background: var(--primary); color: white; border: none; padding: 22px; border-radius: 15px; font-weight: bold; cursor: pointer; font-size: 1.4rem; width: 100%; }
-        .posicao { color: #888; margin-right: 10px; font-size: 1.2rem; font-weight: bold; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Salve o Rio</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <div id="game">
 
-<div id="instrucoes-tela">
-    <div class="modal-instrucoes">
-        <h2>Como Personalizar 🛠️</h2>
-        <ul style="text-align: left; list-style: none; padding: 0;">
-            <li style="margin-bottom: 15px;">✅ <b>Sortear:</b> Gera 7 músicas aleatórias.</li>
-            <li style="margin-bottom: 15px;">✅ <b>Trocar:</b> Pesquise uma música e clique no botão <b>[ + ]</b> para colocá-la na lista de cima.</li>
-            <li style="margin-bottom: 15px;">✅ <b>Ouvir:</b> Toque no nome da música para abrir o vídeo.</li>
-        </ul>
-        <button class="btn-entrar" onclick="fecharInstrucoes()">ENTENDI!</button>
+    <!-- TELA INICIAL -->
+    <div id="screen-start" class="screen active">
+      <div class="background-gif"></div>
+      
+      <button id="btn-settings-start" class="settings-btn">⚙️</button>
+
+      <h1>SALVE<br>O RIO</h1>
+      <p class="subtitle">PEQUENAS AÇÕES, GRANDES MUDANÇAS!</p>
+      
+      <div class="character">
+        <img id="leo-start" src="assets/Guardiao.png" alt="Guardião">
+      </div>
+
+      <div class="menu-buttons">
+        <button id="btn-play" class="pixel-btn">
+          <span class="btn-icon">▶</span> JOGAR
+        </button>
+        <button id="btn-howto" class="pixel-btn">
+          <span class="btn-icon">?</span> COMO JOGAR
+        </button>
+      </div>
+
+      <div class="credits">Desenvolvido por:<br>
+        Ricardo Oliveira Nascimento<br>
+        Fábio Leite
+      </div>
     </div>
-</div>
 
-<div class="container">
-    <div class="card">
-        <h1>🎶 Lista de Louvores</h1>
-        <div id="lista-sorteada"></div>
-        <button class="btn-acao" onclick="gerarSorteio()">GERAR NOVO SORTEIO</button>
+    <!-- TELA COMO JOGAR -->
+    <div id="screen-howto" class="screen">
+      <h2>Como Jogar</h2>
+      <p>Escolha ações para melhorar a qualidade do rio.<br>
+         Algumas ações demoram mais dias para fazer efeito.</p>
+      <button id="btn-back" class="pixel-btn">VOLTAR</button>
     </div>
 
-    <div class="card">
-        <h1>🔎 Pesquisar e Trocar</h1>
-        <input type="text" id="inputBusca" class="search-box" placeholder="Busque para substituir..." onkeyup="filtrarMusicas()">
-        <div id="listaGeral"></div>
+    <!-- TELA DO JOGO -->
+    <div id="screen-game" class="screen">
+      <button id="btn-settings-game" class="settings-btn">⚙️</button>
+
+      <header>
+        <div class="status">
+          <div class="quality">
+            <span>QUALIDADE DO RIO</span>
+            <div class="bar-container">
+              <div id="quality-bar" class="bar"></div>
+            </div>
+            <span id="quality-text">65%</span>
+          </div>
+          <div class="points">
+            <span id="points">230</span> ⭐
+          </div>
+        </div>
+        <div class="day">Dia <span id="day">1</span></div>
+      </header>
+
+      <div class="river-scene">
+        <img id="river-bg" src="assets/Salve o rio (1).gif" alt="Rio">
+        <div class="leo-container">
+          <img id="leo-game" src="assets/Guardiao.png" alt="Guardião">
+          <div id="speech-bubble" class="speech-bubble"></div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="action-btn" data-points="12" data-type="tree">
+          🌳 Plantar Árvores<br><small>+12 (3 dias)</small>
+        </button>
+        <button class="action-btn" data-points="18" data-type="clean">
+          🗑️ Limpar o Rio<br><small>+18 (1 dia)</small>
+        </button>
+        <button class="action-btn" data-points="15" data-type="recycle">
+          ♻️ Campanha de Reciclagem<br><small>+15 (2 dias)</small>
+        </button>
+        <button class="action-btn" data-points="25" data-type="factory">
+          🏭 Fiscalizar Fábrica<br><small>+25 (2 dias)</small>
+        </button>
+      </div>
+
+      <div class="game-buttons">
+        <button id="btn-end-turn" class="pixel-btn end-turn">FINALIZAR DIA</button>
+        <button id="btn-back-menu" class="pixel-btn back-menu">← MENU</button>
+      </div>
     </div>
-</div>
 
-<script>
-    const hinario = ["A Bênção", "A Bíblia", "A Ceia do Senhor", "A Colheita", "A Criação", "A Cristo Eu Amo", "A Deus Demos Glória", "A Doce História", "A Escola Sabatina", "A Esperança É Jesus", "A Glória da Tua Presença", "A Jesus Seguir Eu Quero", "A Lei de Deus", "A Manhã Gloriosa", "A Palavra do Senhor", "A Real Bandeira", "A Terna Voz do Salvador", "A Ti Rendemos Glória", "A Ti Toda Glória", "A Todo Semelhante Meu", "A Tua Lei", "A Última Ceia", "A Única Saída", "A Verdade Brilhará", "A Voz de Deus", "A Voz de Jesus", "Abençoa Este Lar", "Abre Meus Olhos", "Abre, Senhor, Os Olhos Meus", "Abrigo Na Rocha", "Achei Um Grande Amigo", "Acima do Céu", "Adoração", "Agora Posso Ver", "Além do Céu Azul", "Além do Rio", "Alicerce Seguro", "Almejo o Lar", "Alvo Mais Que a Neve", "Amigo Mui Precioso", "Amigo, Não Saia Sem Cristo", "Amor Glorioso", "Amor No Lar", "Amor Nos Faz Contentes", "Amor, Que Por Amor Desceste", "Ando Sempre Alegre", "Anunciai Pelas Montanhas", "Ao Deus De Abraão Louvai", "Ao Jesus Me Tomar a Mão", "Ao Mundo Vou Contar", "Ao Olhar Pra Cruz", "Ao Orarmos, Senhor", "Ao Passares Pelas Águas", "Ao Pé da Cruz de Cristo", "Ao Teu Lado Quero Andar", "Ao Ver A Cruz", "Aonde Quer Que Eu Vá", "Aquarela do Senhor", "As Águas Batismais", "As Searas Maduras", "Até Então", "Até Quando?", "Através de Nós", "Bela Manhã", "Belém, Bendita És", "Bem Aventurança", "Bem Cedinho Sempre Busco", "Bem de Manhã", "Bem Junto A Cristo", "Bem-vindo o Sábado", "Bênção Final", "Bendita Hora De Oração", "Bendita Segurança", "Benditos Laços", "Breve Jesus Voltará", "Brilha Jesus", "Brilha Por Cristo Em Teu Viver", "Brilhar por Ti", "Brilho Celeste", "Cada Dia", "Cada Dia Mais Perto", "Cada Momento", "Cada Vez Mais Puro", "Caminhando", "Canção da Manjedoura", "Canção da Vida", "Canção Para Meu Bebê", "Cantarei de Meu Jesus", "Castelo Forte", "Chegou a Hora", "Chegou a Hora de Adorar ao Senhor", "Cheios do Espírito", "Chuvas de Bênçãos", "Com Cristo No Meu Coração", "Com Glória Coroai", "Como Agradecer", "Compensa Servir a Jesus", "Concede-nos o Espírito", "Conduze-me, Meu Mestre", "Confia Em Deus", "Confiarei", "Confiei no Meu Senhor", "Conta As Bênãos", "Conta-me a História de Cristo", "Conta-me A Velha História", "Contigo, Ó Deus, Almejo Andar", "Cordeiro de Deus", "Creio Em Milagres", "Crer e Observar", "Crescendo Em Graça", "Cria Em Mim, Ó Deus", "Cristo", "Cristo Ama As Criancinhas", "Cristo É o Número Um", "Cristo É Tudo Para Mim", "Cristo Fez Tudo Muito Bom", "Cristo Foi Preparar Um Lugar", "Cristo Já Ressuscitou", "Cristo Não Tarda a Voltar", "Cristo Nasceu", "Cristo No Horto", "Cristo Nos Conclama", "Cristo Tocou-me", "Cristo Vem", "Cristo Virá Outra Vez", "Cristo, Dá-nos Tua Paz", "Cuidará de Mim Também", "Da Igreja o Fundamento", "Dá-me a Bíblia", "Dai-nos Luz", "Das Mãos do Criador", "De Hoje Em Diante", "De Ti Careço, Ó Deus", "Decidi Olhar Pra o Amanã", "Deixa a Luz do Céu Entrar", "Deixa Entrar o Rei da Glória", "Deixa-me Contigo Andar", "Deixai Vir a Mim os Pequeninos", "Desponta o Sol", "Deus Cuidará de Ti", "Deus É Nosso Pai Amado", "Deus É Nosso Pai Celeste", "Deus Fez o Sábado Para Mim", "Deus Mandou o Sol Brilhar", "Deus Não Se Cansa de Amar", "Deus Nos Ouvirá", "Deus Ouve, Deus Responde", "Deus Sabe, Deus Ouve, Deus Vê", "Deus Sempre Me Ama", "Deus Tem Um Plano Pra Mim", "Deus Vos Guarde", "Dia a Dia", "Dia de Chuva", "Dia de Esperança", "Dia Especial", "Dia Santo", "Do Santo Sábado És Senhor", "Doce Lar", "É Bom Ter Jesus no Coração", "É Jesus o Salvador", "E Me Fareis Um Santuário", "É Prazer Servir a Cristo", "Eis-nos Prontos", "Ele É Exaltado", "Em Família", "Em Memória de Mim", "Em Memória De Ti", "Em Mim Vem Habitar", "Em Paz Eu Vou", "Em Sua Presença", "Em Tuas Mãos", "Encontros", "Enquanto Ele Não Vem", "Entrega", "Entrega Teu Caminho Ao Senhor", "Entregamos Em Tuas Mãos", "Entrego a Ti", "Envio a Ti", "Ergo Os Meus Olhos", "Espero A Manã Gloriosa", "Estejas Conosco", "Estrela de Luz", "Estrelas Terei", "Eu Achei", "Eu Amo a Tua Lei", "Eu Digo Não", "Eu Espero", "Eu Não Preciso Mais Sonhar", "Eu Não Sou Mais Eu", "Eu Não Te Deixarei", "Eu Pertenço Ao Meu Rei", "Eu Quero Esse Poder", "Eu Sei Em Quem Eu Creio", "Eu Sei Por Que Nasci", "Eu Só Quero Estar Onde Estás", "Eu Sou Importante", "Eu Sou Um Pobre Peregrino", "Eu Sou Uma Obra de Arte", "Eu Te Amo, Meu Mestre", "Eu Te Amo, Ó Deus", "Eu Vou Para O Céu", "Face a Face", "Fala À Minh’alma", "Fala, Senhor", "Falar Com Deus", "Faz-me Um Servo", "Faze Como Daniel", "Fé Dos Nossos Pais", "Fé é a Vitória", "Fiel a Toda Prova", "Filhos da Promessa", "Finda o Dia", "Firme Nas Promessas", "Fixa Teus Olhos No Mestre", "Foge Para o Monte", "Foi Amor", "Foi Na Cruz", "Foi Por Você Também", "Fortalece Tua Igreja", "Fruto da Criação", "Geração Esperança", "Glória ao Rei do Amor", "Glória Ao Rei Que Vos Nasceu", "Glória Perene", "Graça", "Graça de Deus", "Graça, Amor e Comunhão", "Graças", "Grande Alegria", "Grande Artista", "Grande Comandante", "Grande É O Senhor", "Gratidão", "Guarda, Vê Se Muito Falta", "Há Um Amigo", "Há Um Dever", "Há Um Rio Cristalino", "Hei de Ver", "Herdeiro do Reino", "Hino dos Aventureiros", "Hino dos Desbravadores", "Hoje Ajuda a Alguém", "Hoje Sou Feliz", "Hora Feliz do Pôr do Sol", "Houve Alguém", "Humildade e Gratidão", "Humilde Oração", "Imenso Amor", "Importa Renascer", "Inda é Longe Canaã?", "Infinita Graça", "Inteiramente Fiel", "Intróito", "Invocação", "Irei Aonde Jesus Mandar", "Jamais Se Diz Adeus Ali", "Jesus Achou-me", "Jesus É Melhor", "Jesus Está Esperando", "Jesus Me Guia", "Jesus Me Quer Bem", "Jesus Me Remiu", "Jesus Me Transformou", "Jesus Meu Guia É", "Jesus Precisa de Ti", "Jesus Precisa Voltar", "Jesus Sempre Te Amo", "Jesus Vem Logo", "Jesus Voltará", "Jesus, Muito Obrigado", "Jesus, Não Eu", "Jesus, Pastor Amado", "Jesus, Teu Nome Satisfaz", "Jesus, Tu És A Minha Vida", "Joias Preciosas", "Jubilosos Te Adoramos", "Junto À Cruz", "Junto ao Bondoso Deus", "Junto Ao Rio Jordão", "Lá No Céu", "Lado a Lado", "Lâmpada Para Os Meus Pés", "Lar Feliz", "Lembre-se do Sábado", "Lindo És, Meu Mestre", "Lindo País", "Louvai A Cristo", "Louvai-o", "Louvamos-Te, Ó Deus", "Louvem a Jesus", "Louvemos O Rei", "Louvor Ao Trino Deus", "Lugar de Paz", "Luz Bendita, Luz Gloriosa", "Luzes da Aurora", "Mágoas", "Maior que Tudo", "Mais de Cristo", "Mais Perto Desse Lar", "Mais Perto Quero Estar", "Mais Semelhante a Jesus", "Manancial de Toda Bênção", "Mansão Sobre o Monte", "Manso e Suave", "Mãos", "Maravilhosa Graça", "Maravilhoso Deus", "Mensagem Ao Mundo", "Meu Cálice Transborda", "Meu Deus e Eu", "Meu Deus É Tão Grande", "Meu Divino Protetor", "Meu Jesus Está Chamando", "Meu Nome Em Suas Mãos", "Meu Refúgio Está No Monte", "Meus Talentos Vou Usar", "Minha Cruz", "Minha Entrega", "Minha Esperança", "Minha Fé Bem Segura Está", "Minha Oração", "Minha Pequenina Luz", "Minha Vida é Uma Viagem", "Monte do Calvário", "Morte e Ressurreição", "Muito Além do Sol", "Música Celeste", "Na Cruz Morri Por Ti", "Na Senda do Calvário", "Não Ando Só", "Não Desistir", "Não Há Amigo Igual a Cristo", "Não Há Nome Mais Amável", "Não Há o Que Temer", "Não Há Outro Igual a Você", "Não Me Esqueci de Ti", "Não Os Impeçais", "Não Tardará", "Nas Tuas Mãos", "Nasce Jesus", "Nasceu o Salvador", "Natal, Feliz Natal!", "No Celeste Lar Glorioso", "No Jardim", "No Serviço do Meu Rei", "Noite de Paz", "Nome Precioso", "Nós o Veremos", "Nós Te Adoramos", "Nossa Inspiração", "Nosso Maravilhoso Deus", "Novas de Amor e Vida", "Novo Dia Chegará", "Num Berço de Palha", "Nunca Desanimes", "Nunca Me Deixar", "Nunca Te Deixarei", "Ó Adorai O Senhor", "Ó Alegrai-vos, Filhos de Sião", "O Amigo do Coração", "O Amor De Jesus", "O Céu", "O Céu é Jesus", "Ó Cristãos, Avante!", "Ó Deus De Amor", "O Deus Eterno Reina", "O Dia Em Que Deus Criou o Mundo", "O Dia Não Sei", "O Encontro", "O Espírito de Profecia", "O Espírito Santo", "O Eterno Lar", "O Jardim de Oração", "Ó Jesus, Habita Em Mim", "O Juízo", "O Melhor Amigo", "O Melhor Lugar do Mundo", "Ó Mestre, O Mar Se Revolta", "O Milagre da Vida", "O Mundo é de Meu Deus", "Ó Noite Santa", "O Pão da Vida", "O Poder do Amor", "O Poder Do Espírito", "O Que Penso de Meu Mestre", "O Rei Já Perto Está", "O Sábado Chegou", "O Santo Espírito", "O Senhor Está Aqui!", "O Senhor Está Em Seu Templo", "O Teu Querer", "Ó Vem À Igreja Comigo", "Ó Vem, Aflito Coração", "Ó Vem, Emanuel!", "Ó Vinde, Adoremos", "Obedecer É Melhor", "Obrigado", "Obrigado, Bom Pai", "Ofertório", "Oh, Adorai", "Oh, Eu Amo A Cristo!", "Oh, Fronte Ensanguentada!", "Oh, Não Temas, Sou Contigo", "Oh, Nunca Separar!", "Oh, Que Amigo Em Cristo Temos!", "Oh, Que Belo Hino Deus Me Deu", "Oh, Que Esperança!", "Oh! Que Belos Hinos!", "Olha Com Fé Para Cima", "Onde Estavam?", "Onde Quer Que Seja", "Oração de Súplica", "Oração Para Uma Criança", "Oração Pela Missão", "Ouço o Clamor do Bom Pastor", "Ouve-nos, Pastor Divino", "Ouve-nos, Senhor", "Pai, Eu Me Achego A Ti", "Pai, Venho A Ti", "Pai, Vive Em Mim", "Para Além Das Montanhas", "Para o Céu Por Jesus Irei", "Paz", "Pedras", "Pegadas", "Perdão, Poder e Paz", "Pertenço a Cristo", "Perto de Jesus", "Perto do Lar", "Pés Na Terra, Olhos No Céu", "Pode Cair o Mundo", "Por Belezas Naturais", "Por Que Me Amou Assim?", "Por Seu Imenso Amor", "Por Um Pecador Qual Eu", "Porque Ele Vive", "Pra Quem Nada Tem", "Prece de Gratidão", "Prece Vespertina", "Preciosa Graça", "Precioso É Jesus Para Mim", "Precioso Nome", "Presente de Valor", "Primeiro Quero Ver Meu Salvador", "Quando Deus Fizer Chamada", "Quando Estou Com Medo", "Quando For Chamado", "Quando O Livro Aberto For", "Quando o Rei Vier", "Quão Grande És Tu", "Quase No Lar", "Que Consolo e Paz!", "Que Deus Te Abençoe!", "Que Diz a Bíblia?", "Que Firme Alicerce!", "Que o Senhor Nos Abençoe!", "Que Prazer É Ser de Cristo", "Que Te Darei, Meu Mestre?", "Que Tempo Já Faz?", "Quem Orou Três Vezes?", "Quem Se Dispõe a Ir?", "Queremos Dar Louvor", "Queremos Te Pedir, Senhor", "Quero Bem Alegre Obedecer", "Quero Estar Ao Pé da Cruz", "Quero Me Entregar", "Quero Servir a Jesus", "Quero Ter Jesus", "Quero Ter Jesus Comigo", "Refúgio Em Temporal", "Rei Dos Reis", "Remido", "Renova-me", "Restaura", "Restaura Em Mim", "Rocha Eterna", "Rude Cruz", "‘Stavas Lá?", "Sábado", "Sábado Bendito", "Sábado do Meu Senhor", "Sábado, o Dia Mais Feliz", "Sabe Quantas Estrelinhas", "Sal da Terra", "Salmo dos Salmos", "Salva-me Também", "Salvo Em Jesus", "Sangue Precioso de Cristo", "Santa Hora De Oração", "Santa Lei de Deus", "Santo És, Senhor", "Santo Lugar", "Santo Somente é o Senhor", "Santo, Santo, Pai Bondoso", "Santo, Santo, Santo!", "Santuário", "São Dez Os Mandamentos", "Saudade", "Saudai O Nome De Jesus", "Se Cristo For Comigo", "Se Deus É Por Nós", "Se Ele Não For o Primeiro", "Sê Minha Vida", "Se Não Houver Amanã", "Se Tu Buscares a Jesus", "Seguindo A Jesus", "Sejas Louvado", "Sempre Alegre", "Sempre Confiante", "Sempre de Jesus", "Sempre Vencendo", "Senhor Jesus, Muito Obrigado", "Senhor, Tu Nos Convidas", "Ser Igual A Cristo", "Será de Manhã?", "Seu Maravilhoso Olhar", "Seu Sangue Tem Poder", "Sim, Cristo Me Ama", "Sim, Glória Haverá No Final", "Sinto a Presença do Senhor", "Só Um Passo", "Só, Com Teu Deus", "Sob Suas Asas", "Sobre o Altar", "Somos Igreja", "Somos Teus, Senhor", "Somos Um Pequeno Povo", "Sonda-me, Ó Deus", "Soou Em Meio À Noite Azul", "Sou Aventureiro", "Sou de Jesus", "Sou de Jesus Agora", "Sou Feliz", "Sou Feliz Com Jesus", "Sou Forasteiro Aqui", "Sua Glória", "Suave Espírito", "Sublime Amor", "Sumo Sacerdote", "Surge a Alvorada", "Surgem Anjos Proclamando", "Tal Qual Estou", "Tão Grato Me É Lembrar", "Tão Triste Eu Andava", "Tem Fé Em Deus", "Tempo de Ser Santo", "Tenho Um Hino Em Meu Coração", "Teu Divinal Amor", "Teu É Nosso Coração", "Todas As Coisas Contribuem", "Toma, Ó Deus, Meu Coração", "Trabalhar e Orar", "Trabalho Cristão", "Transbordando em Amor", "Tu És Digno", "Tu És Fiel, Senhor", "Tua Lei", "Tua Palavra", "Tudo Entregarei", "Tudo És Pra Mim", "Tudo Para Deus", "Um Lugar Feliz É o Céu", "Um Novo Nome Lá Na Glória", "Um Pouco Mais", "Um Vencedor", "Unidos em Cristo", "Unidos Pela Palavra", "Vale do Éden Formoso", "Vamos Adorar", "Vamos Ver Jesus Ali", "Vaso de Bênção", "Vaso de Honra", "Vaso Novo", "Vem Brilhar", "Vem Brilhar Em Mim", "Vem Comigo Habitar", "Vem Entre Nós Morar", "Vem o Grande Dia", "Vem, Espírito Santo", "Vem, Ó Jesus", "Vem, Ó Senhor", "Vem, Santo Espírito, Agora", "Vem, Senhor", "Vencedor Cada Dia", "Vencendo Vem Jesus", "Venham Todos", "Venham, Crianças", "Venho Te Adorar", "Ver Jesus Em Você", "Verei Jesus", "Vestido Em Linho", "Vida Em Olhar", "Vigiai, Cristãos", "Vigiar e Orar", "Vinde Às Águas", "Vinde, Povo do Senhor", "Vitória Em Cristo", "Vive Em Mim", "Volto Ao Lar", "Vós, Criaturas do Senhor"];
-    const adoradores = ['Teu Santo', 'Seja Louvado', 'Não Há o Que Temer', 'Lá no Céu', 'Eu Sou Feliz', 'Ao Olhar pra Cruz', 'Santo Somente É o Senhor', 'Jesus Tu És a Minha Vida', 'Entrego Minha Vida', 'Somente Teu', 'Deus É Refúgio', 'Escuta Meu Clamor', 'Teu Santo Nome (Congregacional)', 'Adorá-Lo', 'Grande Deus', 'Verei Jesus', 'O Alto Clamor', 'Ele Vive em Mim', 'Conversar Com Deus', 'Em Ti', 'Ele Vem', 'Um Milagre', 'Digno de Louvor', 'Eis-Me Aqui', 'Tua Vontade', 'Flua em Mim', 'Nossa Oração', 'Nas Mãos do Oleiro', 'Tua Palavra', 'Cópia de Jesus', 'Fé e Ação', 'Bem Junto a Cristo / Mais Perto Quero Estar / Tal Qual Estou', 'Santuário no Tempo', 'Declaração', 'Eu Vou', 'Milagres', 'Em Tua Presença', 'Restaurado', 'Tua Casa, Tua Morada', 'Eu Pertenço à Luz', 'Meu Pastor', 'Confie', 'Levanto a Cruz', 'Estou Aqui', 'Missão', 'Volta pra Mim', 'Habita em Mim', 'Seja o Centro', 'Teu Amor', 'Jesus', 'Pra Teu Louvor', 'Graça', 'Usa-Me', 'Vitória', 'Carta de Amor', 'És o Ar Que Eu Respiro', 'Intensamente', 'Nossa Missão', 'Caminho', 'Ele Vai Agir', 'Santo Espirito', 'Digno'];
-    const cdJovens = ['Meu Lugar No Mundo', 'Falar Com Deus', 'O Teu Poder', 'Vem Espírito Santo', 'Descansar', 'Tudo Por Ele', 'Meu Farol (My Lighthouse)', 'Vem Habitar em Nós', 'O Poder do Amor', 'Tu És o Meu Deus', 'Entrega', 'Brilhar Por Ti', 'Mensageiro', 'Vaso de Honra/ Renova-me', 'Não Tardará', 'Restaura', 'Som de Chuva', 'Enquanto Eu Viver', 'Maravilhas', 'Jesus, Meu Capitão'];
-    const SemanaSanta2026 = ['O drama da paixão'];
-    
-    const todasMusicasGeral = [];
-    hinario.forEach(m => todasMusicasGeral.push({nome: m, album: "Novo Hinário"}));
-    adoradores.forEach(m => todasMusicasGeral.push({nome: m, album: "Adoradores"}));
-    cdJovens.forEach(m => todasMusicasGeral.push({nome: m, album: "CD Jovens"}));
-    SemanaSanta2026.forEach(m => todasMusicasGeral.push({nome: m, album: "Semana Santa"}));
+    <!-- TELA DE VITÓRIA -->
+    <div id="screen-victory" class="screen">
+      <h1 class="victory-title">🎉 RIO SALVO! 🎉</h1>
+      <p class="victory-subtitle">Parabéns, Guardião do Rio!</p>
+      
+      <div class="victory-stats">
+        <p>Qualidade Final: <strong id="final-quality">100%</strong></p>
+        <p>Pontuação Final: <strong id="final-points">890</strong> ⭐</p>
+        <p>Dias utilizados: <strong id="final-days">12</strong></p>
+      </div>
 
+      <div class="character victory-leo">
+        <img src="assets/Guardiao.png" alt="Léo">
+      </div>
 
-    let listaAtual = [];
+      <button id="btn-restart" class="pixel-btn">JOGAR NOVAMENTE</button>
+      
+      <div class="credits">Desenvolvido por:<br>
+        Ricardo Oliveira Nascimento<br>
+        Fábio Leite
+      </div>
+    </div>
 
-    function fecharInstrucoes() { document.getElementById('instrucoes-tela').style.display = 'none'; }
-
-    function abrirNoYoutube(nome, album) {
-        const query = encodeURIComponent(nome + " " + album);
-        window.open(`https://www.youtube.com/results?search_query=${query}`, '_blank');
-    }
-
-    function renderizarLista() {
-        const container = document.getElementById('lista-sorteada');
-        container.innerHTML = "";
-        listaAtual.forEach((m, i) => {
-            container.innerHTML += `
-                <div class="musica-item">
-                    <div class="info-musica" onclick="abrirNoYoutube('${m.nome}', '${m.album}')">
-                        <span class="posicao">${i + 1}</span>
-                        <span class="musica-nome">${m.nome}</span>
-                        <span class="album-tag">${m.album}</span>
-                    </div>
-                </div>`;
-        });
-    }
-
-    function gerarSorteio() {
-        const m1 = { nome: hinario[Math.floor(Math.random() * hinario.length)], album: "Novo Hinário" };
-        const m2 = { nome: adoradores[Math.floor(Math.random() * adoradores.length)], album: "Adoradores" };
-        const m3 = { nome: cdJovens[Math.floor(Math.random() * cdJovens.length)], album: "CD Jovens" };
-        const resto = [...todasMusicasGeral].sort(() => 0.5 - Math.random()).slice(0, 4);
-        listaAtual = [m1, m2, m3, ...resto];
-        renderizarLista();
-    }
-
-    function substituirMusica(nomeNovo, albumNovo) {
-        const pos = prompt("Em qual posição (1 a 7) você quer colocar esta música?");
-        const index = parseInt(pos) - 1;
-        if (index >= 0 && index < 7) {
-            listaAtual[index] = { nome: nomeNovo, album: albumNovo };
-            renderizarLista();
-            alert("Música trocada com sucesso!");
-        } else {
-            alert("Posição inválida. Escolha de 1 a 7.");
-        }
-    }
-
-    function filtrarMusicas() {
-        const termo = document.getElementById('inputBusca').value.toLowerCase();
-        const listaUI = document.getElementById('listaGeral');
-        listaUI.innerHTML = "";
-        if(termo.length < 2) return;
-        const filtradas = todasMusicasGeral.filter(m => m.nome.toLowerCase().includes(termo)).slice(0, 10);
+    <!-- MODAL CONFIGURAÇÕES -->
+    <div id="settings-modal" class="modal">
+      <div class="modal-content">
+        <h2>⚙️ Configurações</h2>
         
-        filtradas.forEach(m => {
-            listaUI.innerHTML += `
-                <div class="musica-item" style="border-left: 8px solid #555;">
-                    <div class="info-musica" onclick="abrirNoYoutube('${m.nome}', '${m.album}')">
-                        <span class="musica-nome">${m.nome}</span>
-                        <span class="album-tag">${m.album}</span>
-                    </div>
-                    <button class="btn-add" onclick="substituirMusica('${m.nome}', '${m.album}')"> + </button>
-                </div>`;
-        });
-    }
+        <div class="setting-item">
+          <label>Som / Música</label>
+          <button id="btn-sound" class="toggle-btn">🔊 Ligado</button>
+        </div>
+        
+        <div class="setting-item">
+          <label>Libras (Língua Brasileira de Sinais)</label>
+          <button id="btn-libras" class="toggle-btn">✅ Ativado</button>
+        </div>
 
-    gerarSorteio();
-</script>
+        <button id="btn-close-settings" class="pixel-btn">FECHAR</button>
+      </div>
+    </div>
+  </div>
 
+  <script src="script.js"></script>
 </body>
 </html>
